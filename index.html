@@ -1,23 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oscar Villarreal</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        background: #fff;
-        color: #111;
-        margin: 2rem;
-      }
-      h1 { font-size: 2rem; }
-      p { max-width: 600px; }
-    </style>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oscar Villarreal</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0a0a;
+      --fg: #f5f5f7;
+      --link: #4da6ff;
+      --muted: #aaa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding-top: 60px; /* for navbar space */
+      line-height: 1.6;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background-color: #0a0a0a;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 10;
+    }
+
+    header .logo {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    nav a {
+      margin-left: 1.25rem;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      color: var(--fg);
+    }
+
+    .note {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Oscar Villarreal</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="https://github.com/oscarvillarreal" target="_blank">GitHub</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main>
     <h1>Hey, I'm Oscar.</h1>
-    <p>I build web apps, explore DevOps, and try to make tech more human. This site is a work in progress — stay tuned.</p>
-    <p><a href="https://github.com/oscarvillarreal">View my GitHub</a></p>
-  </body>
+    <p>This site is a work in progress. I’m currently building tools, simplifying interfaces, and learning how to ship cleaner code.</p>
+    <p class="note">More to come — stay tuned.</p>
+  </main>
+
+</body>
 </html>
