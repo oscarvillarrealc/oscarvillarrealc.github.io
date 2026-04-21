@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title="Blog — Oscar Villarreal" description="Writing on software, systems, and building things.">
+  <style>
+    .blog-header {
+      padding-top: 5rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .post-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.15s;
+    }
+    .post-item:hover { opacity: 0.75; }
+    .post-item:last-child { border-bottom: none; }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .post-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .post-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+    .post-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .post-desc {
+      font-size: 0.925rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .empty {
+      padding: 4rem 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+
+  <div class="blog-header">
+    <div class="eyebrow">
+      <span data-lang="en">Writing</span>
+      <span data-lang="es">Escritura</span>
+    </div>
+    <h1>Blog</h1>
+    <p class="subtitle">
+      <span data-lang="en">Thoughts on software, systems, and building things.</span>
+      <span data-lang="es">Pensamientos sobre software, sistemas y construcción de proyectos.</span>
+    </p>
+  </div>
+
+  <div class="post-list">
+    {posts.length === 0 ? (
+      <p class="empty">
+        <span data-lang="en">No posts yet — check back soon.</span>
+        <span data-lang="es">Aún no hay publicaciones — vuelve pronto.</span>
+      </p>
+    ) : (
+      posts.map((post) => (
+        <a class="post-item" href={`/blog/${post.slug}`}>
+          <div class="post-meta">
+            <span class="post-date">{formatDate(post.data.pubDate)}</span>
+            {post.data.tags && (
+              <div class="post-tags">
+                {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+              </div>
+            )}
+          </div>
+          <div class="post-title">{post.data.title}</div>
+          <div class="post-desc">{post.data.description}</div>
+        </a>
+      ))
+    )}
+  </div>
+</Layout>

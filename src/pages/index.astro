@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <style>
+    section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    /* Hero */
+    #hero {
+      padding-top: 5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+    .hero-text { flex: 1; min-width: 0; }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .hero-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    .hero-photo {
+      flex-shrink: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 0 4px rgba(77,166,255,0.08);
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    @media (max-width: 520px) {
+      #hero { flex-direction: column-reverse; align-items: flex-start; }
+      .hero-photo { width: 100px; height: 100px; }
+    }
+
+    /* Section headings */
+    h2 {
+      font-size: 1.375rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    /* Projects */
+    .projects { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.15s;
+    }
+    .project-card:hover { border-color: var(--border-hover); }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-name {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .project-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .project-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.925rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.65;
+    }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .tag i { font-size: 0.85rem; line-height: 1; }
+    .tag img { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* Stack */
+    .stack-category { margin-bottom: 1.75rem; }
+    .stack-category:last-child { margin-bottom: 0; }
+
+    .stack-category-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 0.5rem 0.7rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 72px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .stack-item:hover { border-color: var(--border-hover); background: var(--surface-hover); }
+    .stack-item i { font-size: 1.875rem; line-height: 1; }
+    .stack-item img { width: 1.875rem; height: 1.875rem; object-fit: contain; }
+    .stack-item span { font-size: 0.7rem; color: var(--muted); text-align: center; line-height: 1.3; }
+
+    /* About */
+    .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
+    .about-text p + p { margin-top: 1rem; }
+  </style>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-text">
+      <div class="eyebrow">Monterrey, Mexico</div>
+      <h1>
+        <span data-lang="en">Backend-leaning full&#8209;stack developer</span>
+        <span data-lang="es">Desarrollador full&#8209;stack con enfoque en backend</span>
+      </h1>
+      <p class="hero-desc">
+        <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be. Strong opinions on architecture, loose opinions on tabs vs. spaces.</span>
+        <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario. Opiniones firmes sobre arquitectura, opiniones flexibles sobre tabs vs. espacios.</span>
+      </p>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="/Oscar%20Villarreal%20Chaccourt%20CV.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span data-lang="en">Download CV</span>
+          <span data-lang="es">Descargar CV</span>
+        </a>
+        <a class="btn btn-ghost" href="mailto:oscar@villarrealc.com">
+          <span data-lang="en">Get in touch</span>
+          <span data-lang="es">Contáctame</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="/oscar.png" alt="Oscar Villarreal" />
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <h2>
+      <span data-lang="en">Projects</span>
+      <span data-lang="es">Proyectos</span>
+    </h2>
+    <div class="projects">
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name"><img src="/icons/aindez.svg" class="project-icon" alt="" />Aindez</span>
+          <span class="project-label">
+            <span data-lang="en">Main</span><span data-lang="es">Principal</span>
+          </span>
+        </div>
+        <p class="project-desc" data-lang="en">
+          Multi-tenant SaaS platform covering HR, ATS, and CRM workflows. Built on a silo architecture —
+          each organization gets its own Cloud Run service and Cloud SQL instance, provisioned automatically
+          via Terraform pipelines. Features include a Kanban-based applicant tracker, Google Drive sync,
+          GCS file storage with signed URLs, messaging campaigns, and per-org navigation customization.
+        </p>
+        <p class="project-desc" data-lang="es">
+          Plataforma SaaS multi-tenant para flujos de RRHH, ATS y CRM. Arquitectura silo: cada organización
+          tiene su propio servicio en Cloud Run e instancia de Cloud SQL, aprovisionados automáticamente
+          mediante pipelines de Terraform. Incluye un tablero Kanban de candidatos, sincronización con
+          Google Drive, almacenamiento en GCS con URLs firmadas, campañas de mensajería y navegación
+          personalizable por organización.
+        </p>
+        <div class="tag-list">
+          <span class="tag"><i class="devicon-django-plain colored"></i>Django</span>
+          <span class="tag"><i class="devicon-fastapi-plain colored"></i>FastAPI</span>
+          <span class="tag"><i class="devicon-react-original colored"></i>React</span>
+          <span class="tag"><i class="devicon-typescript-plain colored"></i>TypeScript</span>
+          <span class="tag"><img src="/icons/tanstack.svg" alt="TanStack" />TanStack Router</span>
+          <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
+          <span class="tag"><i class="devicon-terraform-plain colored"></i>Terraform</span>
+          <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
+          <span class="tag"><img src="/icons/workos.svg" alt="WorkOS" />WorkOS</span>
+          <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL</span>
+          <span class="project-label">
+            <span data-lang="en">Client</span><span data-lang="es">Cliente</span>
+          </span>
+        </div>
+        <p class="project-desc" data-lang="en">
+          E-commerce and CRM platform for a Mexican industrial mechanical seals company. Includes a
+          React Native mobile app, an AI-powered sales assistant (Vertex AI / Dialogflow CX), product catalog
+          with media storage on GCS, Filament admin panel with lead tracking, and performance optimizations
+          to reduce Cloud Run cold starts.
+        </p>
+        <p class="project-desc" data-lang="es">
+          Plataforma de e-commerce y CRM para una empresa mexicana de sellos mecánicos industriales. Incluye
+          una app móvil en React Native, un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo
+          de productos con almacenamiento en GCS, panel de administración en Filament con seguimiento de
+          leads y optimizaciones para reducir cold starts en Cloud Run.
+        </p>
+        <div class="tag-list">
+          <span class="tag"><i class="devicon-laravel-plain colored"></i>Laravel</span>
+          <span class="tag"><i class="devicon-react-original colored"></i>React Native</span>
+          <span class="tag"><i class="devicon-laravel-plain colored"></i>Blade</span>
+          <span class="tag"><i class="devicon-laravel-plain colored"></i>Filament</span>
+          <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
+          <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+          <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
+          <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">
+            <svg class="project-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            OsCapital
+          </span>
+          <span class="project-label">Personal</span>
+        </div>
+        <p class="project-desc" data-lang="en">
+          Personal finance tracker built in Django. Uses FullCalendar for a visual timeline of income,
+          expenses, and projections.
+        </p>
+        <p class="project-desc" data-lang="es">
+          Rastreador de finanzas personales construido con Django. Usa FullCalendar para una línea de tiempo
+          visual de ingresos, gastos y proyecciones.
+        </p>
+        <div class="tag-list">
+          <span class="tag"><i class="devicon-django-plain colored"></i>Django</span>
+          <span class="tag">FullCalendar</span>
+          <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">
+            <svg class="project-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+            <span data-lang="en">Personal Portfolio</span>
+            <span data-lang="es">Portafolio Personal</span>
+          </span>
+          <span class="project-label">Personal</span>
+        </div>
+        <p class="project-desc" data-lang="en">
+          Personal portfolio and blog. Built with Astro for static generation, Astro View Transitions
+          for smooth client-side navigation, and content collections for the blog. Deployed via GitHub Actions to GitHub Pages.
+        </p>
+        <p class="project-desc" data-lang="es">
+          Portafolio personal y blog. Construido con Astro para generación estática, Astro View Transitions
+          para navegación fluida del lado del cliente y colecciones de contenido para el blog. Desplegado
+          vía GitHub Actions en GitHub Pages.
+        </p>
+        <div class="tag-list">
+          <span class="tag"><i class="devicon-astro-plain colored"></i>Astro</span>
+          <span class="tag"><i class="devicon-typescript-plain colored"></i>TypeScript</span>
+          <span class="tag"><i class="devicon-github-original colored"></i>GitHub Pages</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Stack -->
+  <section id="stack">
+    <h2>
+      <span data-lang="en">Tech Stack</span>
+      <span data-lang="es">Stack Tecnológico</span>
+    </h2>
+
+    <div class="stack-category">
+      <div class="stack-category-label">Backend</div>
+      <div class="stack-grid">
+        <div class="stack-item"><i class="devicon-django-plain colored"></i><span>Django</span></div>
+        <div class="stack-item"><i class="devicon-fastapi-plain colored"></i><span>FastAPI</span></div>
+        <div class="stack-item"><i class="devicon-laravel-plain colored"></i><span>Laravel</span></div>
+        <div class="stack-item"><i class="devicon-postgresql-plain colored"></i><span>PostgreSQL</span></div>
+        <div class="stack-item"><i class="devicon-mysql-plain colored"></i><span>MySQL</span></div>
+        <div class="stack-item"><i class="devicon-redis-plain colored"></i><span>Redis</span></div>
+      </div>
+    </div>
+
+    <div class="stack-category">
+      <div class="stack-category-label">Frontend</div>
+      <div class="stack-grid">
+        <div class="stack-item"><i class="devicon-react-original colored"></i><span>React</span></div>
+        <div class="stack-item"><i class="devicon-react-original colored"></i><span>React Native</span></div>
+        <div class="stack-item"><i class="devicon-typescript-plain colored"></i><span>TypeScript</span></div>
+        <div class="stack-item"><img src="/icons/tanstack.svg" alt="TanStack Router" /><span>TanStack Router</span></div>
+      </div>
+    </div>
+
+    <div class="stack-category">
+      <div class="stack-category-label">
+        <span data-lang="en">Infrastructure</span>
+        <span data-lang="es">Infraestructura</span>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-item"><i class="devicon-linux-plain colored"></i><span>Linux</span></div>
+        <div class="stack-item"><i class="devicon-git-plain colored"></i><span>Git</span></div>
+        <div class="stack-item"><i class="devicon-github-original colored"></i><span>GitHub</span></div>
+        <div class="stack-item"><i class="devicon-docker-plain colored"></i><span>Docker</span></div>
+        <div class="stack-item"><i class="devicon-terraform-plain colored"></i><span>Terraform</span></div>
+        <div class="stack-item"><i class="devicon-googlecloud-plain colored"></i><span>GCP</span></div>
+        <div class="stack-item"><img src="/icons/cloudrun.svg" alt="Cloud Run" /><span>Cloud Run</span></div>
+        <div class="stack-item"><img src="/icons/cloudsql.svg" alt="Cloud SQL" /><span>Cloud SQL</span></div>
+        <div class="stack-item"><img src="/icons/cloudbuild.svg" alt="Cloud Build" /><span>Cloud Build</span></div>
+        <div class="stack-item"><img src="/icons/gcs.svg" alt="GCS" /><span>GCS</span></div>
+      </div>
+    </div>
+
+    <div class="stack-category">
+      <div class="stack-category-label">
+        <span data-lang="en">Services</span>
+        <span data-lang="es">Servicios</span>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-item"><img src="/icons/workos.svg" alt="WorkOS" /><span>WorkOS</span></div>
+        <div class="stack-item"><img src="/icons/vertex.svg" alt="Vertex AI" /><span>Vertex AI</span></div>
+        <div class="stack-item"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" /><span>Dialogflow CX</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <h2>
+      <span data-lang="en">About</span>
+      <span data-lang="es">Sobre mí</span>
+    </h2>
+    <div class="about-text">
+      <p data-lang="en">
+        I'm a self-taught developer from Monterrey, Mexico, with about two years of professional experience.
+        My path into programming started on TI calculators in high school — from there it just kept going.
+        I gravitate toward systems design and architecture problems, and I'm actively building depth in
+        algorithms and formal CS theory.
+      </p>
+      <p data-lang="es">
+        Soy un desarrollador autodidacta de Monterrey, México, con aproximadamente dos años de experiencia
+        profesional. Mi camino en la programación comenzó en calculadoras TI en la preparatoria — y de ahí
+        no paró. Me inclino hacia los problemas de diseño de sistemas y arquitectura, y estoy profundizando
+        en algoritmos y teoría formal de CS.
+      </p>
+      <p data-lang="en">
+        Outside of code: I play guitar, bass, keys, and sing — mostly recording original music at home,
+        with a soft spot for The Beatles and The Strokes. I cook (Italian and Mexican, macro-tracked), stay
+        active, and share my apartment with Bucky, a husky who has strong opinions about everything.
+      </p>
+      <p data-lang="es">
+        Fuera del código: toco guitarra, bajo, teclados y canto — principalmente grabando música original
+        en casa, con especial cariño por The Beatles y The Strokes. Cocino (italiana y mexicana, con conteo
+        de macros), me mantengo activo y comparto departamento con Bucky, un husky con opiniones firmes
+        sobre todo.
+      </p>
+    </div>
+  </section>
+</Layout>
