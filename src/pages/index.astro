@@ -112,6 +112,11 @@ import Layout from '../layouts/Layout.astro';
       align-items: center;
       gap: 0.5rem;
     }
+    a.project-name {
+      color: inherit;
+      text-decoration: none;
+    }
+    a.project-name:hover { color: var(--accent); }
     .project-icon {
       width: 20px;
       height: 20px;
@@ -186,9 +191,56 @@ import Layout from '../layouts/Layout.astro';
     .stack-item img { width: 1.875rem; height: 1.875rem; object-fit: contain; }
     .stack-item span { font-size: 0.7rem; color: var(--muted); text-align: center; line-height: 1.3; }
 
+    /* Languages */
+    .lang-list { display: flex; flex-direction: column; gap: 0.85rem; }
+
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .lang-name {
+      font-size: 0.925rem;
+      font-weight: 500;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .lang-level {
+      font-size: 0.78rem;
+      color: var(--muted);
+      width: 180px;
+      flex-shrink: 0;
+    }
+
+    .lang-dots {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .lang-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .lang-dot.filled { background: var(--accent); }
+
     /* About */
     .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
     .about-text p + p { margin-top: 1rem; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: none;
+    }
   </style>
 
   <!-- Hero -->
@@ -232,7 +284,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="project-card">
         <div class="project-header">
-          <span class="project-name"><img src="/icons/aindez.svg" class="project-icon" alt="" />Aindez</span>
+          <a href="https://aindez.ai" target="_blank" rel="noopener noreferrer" class="project-name"><img src="/icons/aindez.svg" class="project-icon" alt="" />Aindez</a>
           <span class="project-label">
             <span data-lang="en">Main</span><span data-lang="es">Principal</span>
           </span>
@@ -266,7 +318,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="project-card">
         <div class="project-header">
-          <span class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL</span>
+          <a href="https://vazel.com" target="_blank" rel="noopener noreferrer" class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL</a>
           <span class="project-label">
             <span data-lang="en">Client</span><span data-lang="es">Cliente</span>
           </span>
@@ -290,6 +342,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Filament</span>
           <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+          <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
           <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
         </div>
@@ -376,6 +429,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="stack-item"><i class="devicon-react-original colored"></i><span>React Native</span></div>
         <div class="stack-item"><i class="devicon-typescript-plain colored"></i><span>TypeScript</span></div>
         <div class="stack-item"><img src="/icons/tanstack.svg" alt="TanStack Router" /><span>TanStack Router</span></div>
+        <div class="stack-item"><i class="devicon-tailwindcss-plain colored"></i><span>Tailwind CSS</span></div>
       </div>
     </div>
 
@@ -412,6 +466,58 @@ import Layout from '../layouts/Layout.astro';
 
   </section>
 
+  <!-- Languages -->
+  <section id="languages">
+    <h2>
+      <span data-lang="en">Languages</span>
+      <span data-lang="es">Idiomas</span>
+    </h2>
+    <div class="lang-list">
+      <div class="lang-item">
+        <span class="lang-name">Spanish</span>
+        <span class="lang-level">
+          <span data-lang="en">Native</span>
+          <span data-lang="es">Nativo</span>
+        </span>
+        <div class="lang-dots">
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+        </div>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">English</span>
+        <span class="lang-level">
+          <span data-lang="en">Full Professional Proficiency</span>
+          <span data-lang="es">Dominio profesional pleno</span>
+        </span>
+        <div class="lang-dots">
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot"></span>
+        </div>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">French</span>
+        <span class="lang-level">
+          <span data-lang="en">Elementary Proficiency</span>
+          <span data-lang="es">Conocimientos básicos</span>
+        </span>
+        <div class="lang-dots">
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot"></span>
+          <span class="lang-dot"></span>
+          <span class="lang-dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- About -->
   <section id="about">
     <h2>
@@ -422,7 +528,7 @@ import Layout from '../layouts/Layout.astro';
       <p data-lang="en">
         I’m a Computer Science graduate from UDEM based in Monterrey, Mexico, with around 1.5 years of professional experience.
         My path into programming started on TI calculators in high school — from there it just kept going.
-        I gravitate toward systems design and architecture problems, and I'm actively building depth in
+        I gravitate toward systems design and architecture problems, and I’m actively building depth in
         algorithms and formal CS theory.
       </p>
       <p data-lang="es">
@@ -443,4 +549,56 @@ import Layout from '../layouts/Layout.astro';
       </p>
     </div>
   </section>
+
+  <script>
+    function initScrollReveal() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const candidates = [];
+
+      document.querySelectorAll("section:not(#hero) h2").forEach(function(el) {
+        candidates.push({ el: el });
+      });
+
+      document.querySelectorAll(".project-card").forEach(function(el, i) {
+        candidates.push({ el: el, delay: i * 70 });
+      });
+
+      document.querySelectorAll(".stack-category").forEach(function(el) {
+        candidates.push({ el: el });
+      });
+
+      document.querySelectorAll(".lang-item").forEach(function(el, i) {
+        candidates.push({ el: el, delay: i * 60 });
+      });
+
+      document.querySelectorAll(".about-text").forEach(function(el) {
+        candidates.push({ el: el });
+      });
+
+      const observer = new IntersectionObserver(
+        function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      const vh = window.innerHeight;
+      candidates.forEach(function(item) {
+        if (item.delay !== undefined) item.el.style.transitionDelay = item.delay + "ms";
+        const rect = item.el.getBoundingClientRect();
+        if (rect.top >= vh) {
+          item.el.classList.add("reveal");
+          observer.observe(item.el);
+        }
+      });
+    }
+
+    document.addEventListener("astro:page-load", initScrollReveal);
+  </script>
 </Layout>
