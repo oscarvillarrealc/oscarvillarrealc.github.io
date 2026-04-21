@@ -16,17 +16,29 @@ import Layout from '../layouts/Layout.astro';
     }
 
     #hero {
-      padding: 4rem 2.5rem 3.5rem;
-      border-radius: 16px;
+      padding: 0;
       border-bottom: none;
       background: linear-gradient(-45deg, var(--hero-c1), var(--hero-c2), var(--hero-c3), var(--hero-c4));
       background-size: 400% 400%;
       animation: hero-gradient 12s ease infinite;
+      border-radius: 0 0 24px 24px;
+      /* full-width breakout */
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      margin: auto;
+      padding: 7.5rem 0rem 7.5rem;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 2.5rem;
     }
+
     .hero-text { flex: 1; min-width: 0; }
 
     .eyebrow {
@@ -72,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     @media (max-width: 560px) {
-      #hero { flex-direction: column; align-items: flex-start; }
+      .hero-inner { flex-direction: column; align-items: flex-start; padding-left: 1.5rem; padding-right: 1.5rem; }
       .hero-photo { width: 100px; height: 100px; }
     }
 
@@ -235,6 +247,7 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- Hero -->
   <section id="hero">
+    <div class="hero-inner">
     <div class="hero-photo">
       <img src="/oscar.png" alt="Oscar Villarreal" />
     </div>
@@ -261,6 +274,7 @@ import Layout from '../layouts/Layout.astro';
           <span data-lang="es">Contáctame</span>
         </a>
       </div>
+    </div>
     </div>
   </section>
 
