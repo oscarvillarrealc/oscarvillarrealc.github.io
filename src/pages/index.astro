@@ -231,16 +231,6 @@ import Layout from '../layouts/Layout.astro';
     .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
     .about-text p + p { margin-top: 1rem; }
 
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .reveal.revealed {
-      opacity: 1;
-      transform: none;
-    }
   </style>
 
   <!-- Hero -->
@@ -551,51 +541,40 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <script>
+    import { animate, inView } from "motion";
+
     function initScrollReveal() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      const candidates = [];
+      const enter = { opacity: 1, y: 0 };
+      const opts = { duration: 0.5, easing: "ease" };
+
+      function setup(el, delay) {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(20px)";
+        inView(el, function() {
+          animate(el, enter, { duration: opts.duration, easing: opts.easing, delay: delay || 0 });
+        });
+      }
 
       document.querySelectorAll("section:not(#hero) h2").forEach(function(el) {
-        candidates.push({ el: el });
+        setup(el);
       });
 
       document.querySelectorAll(".project-card").forEach(function(el, i) {
-        candidates.push({ el: el, delay: i * 70 });
+        setup(el, i * 0.07);
       });
 
       document.querySelectorAll(".stack-category").forEach(function(el) {
-        candidates.push({ el: el });
+        setup(el);
       });
 
       document.querySelectorAll(".lang-item").forEach(function(el, i) {
-        candidates.push({ el: el, delay: i * 60 });
+        setup(el, i * 0.06);
       });
 
       document.querySelectorAll(".about-text").forEach(function(el) {
-        candidates.push({ el: el });
-      });
-
-      const observer = new IntersectionObserver(
-        function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("revealed");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      const vh = window.innerHeight;
-      candidates.forEach(function(item) {
-        if (item.delay !== undefined) item.el.style.transitionDelay = item.delay + "ms";
-        const rect = item.el.getBoundingClientRect();
-        if (rect.top >= vh) {
-          item.el.classList.add("reveal");
-          observer.observe(item.el);
-        }
+        setup(el);
       });
     }
 
