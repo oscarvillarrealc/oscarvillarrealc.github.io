@@ -6,10 +6,22 @@ import Layout from '../layouts/Layout.astro';
   <style>
     section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
     section:last-child { border-bottom: none; }
+    section:not(#hero) { max-width: 720px; margin-left: auto; margin-right: auto; }
 
     /* Hero */
+    @keyframes hero-gradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     #hero {
-      padding-top: 5rem;
+      padding: 4rem 2.5rem 3.5rem;
+      border-radius: 16px;
+      border-bottom: none;
+      background: linear-gradient(-45deg, var(--hero-c1), var(--hero-c2), var(--hero-c3), var(--hero-c4));
+      background-size: 400% 400%;
+      animation: hero-gradient 12s ease infinite;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -45,8 +57,8 @@ import Layout from '../layouts/Layout.astro';
 
     .hero-photo {
       flex-shrink: 0;
-      width: 160px;
-      height: 160px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       overflow: hidden;
       border: 2px solid var(--border);
@@ -59,8 +71,8 @@ import Layout from '../layouts/Layout.astro';
       display: block;
     }
 
-    @media (max-width: 520px) {
-      #hero { flex-direction: column-reverse; align-items: flex-start; }
+    @media (max-width: 560px) {
+      #hero { flex-direction: column; align-items: flex-start; }
       .hero-photo { width: 100px; height: 100px; }
     }
 
@@ -181,6 +193,9 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- Hero -->
   <section id="hero">
+    <div class="hero-photo">
+      <img src="/oscar.png" alt="Oscar Villarreal" />
+    </div>
     <div class="hero-text">
       <div class="eyebrow">Monterrey, Mexico</div>
       <h1>
@@ -188,8 +203,8 @@ import Layout from '../layouts/Layout.astro';
         <span data-lang="es">Desarrollador full&#8209;stack con enfoque en backend</span>
       </h1>
       <p class="hero-desc">
-        <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be. Strong opinions on architecture, loose opinions on tabs vs. spaces.</span>
-        <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario. Opiniones firmes sobre arquitectura, opiniones flexibles sobre tabs vs. espacios.</span>
+        <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be.</span>
+        <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario.</span>
       </p>
       <div class="hero-links">
         <a class="btn btn-primary" href="/Oscar%20Villarreal%20Chaccourt%20CV.pdf" target="_blank">
@@ -204,9 +219,6 @@ import Layout from '../layouts/Layout.astro';
           <span data-lang="es">Contáctame</span>
         </a>
       </div>
-    </div>
-    <div class="hero-photo">
-      <img src="/oscar.png" alt="Oscar Villarreal" />
     </div>
   </section>
 
@@ -408,27 +420,26 @@ import Layout from '../layouts/Layout.astro';
     </h2>
     <div class="about-text">
       <p data-lang="en">
-        I'm a self-taught developer from Monterrey, Mexico, with about two years of professional experience.
+        I’m a Computer Science graduate from UDEM based in Monterrey, Mexico, with around 1.5 years of professional experience.
         My path into programming started on TI calculators in high school — from there it just kept going.
         I gravitate toward systems design and architecture problems, and I'm actively building depth in
         algorithms and formal CS theory.
       </p>
       <p data-lang="es">
-        Soy un desarrollador autodidacta de Monterrey, México, con aproximadamente dos años de experiencia
+        Soy egresado de Ingeniería en Tecnologías Computacionales por la UDEM, con base en Monterrey, México, y cuento con alrededor de 1.5 años de experiencia profesional.
         profesional. Mi camino en la programación comenzó en calculadoras TI en la preparatoria — y de ahí
         no paró. Me inclino hacia los problemas de diseño de sistemas y arquitectura, y estoy profundizando
         en algoritmos y teoría formal de CS.
       </p>
       <p data-lang="en">
         Outside of code: I play guitar, bass, keys, and sing — mostly recording original music at home,
-        with a soft spot for The Beatles and The Strokes. I cook (Italian and Mexican, macro-tracked), stay
-        active, and share my apartment with Bucky, a husky who has strong opinions about everything.
+        with a soft spot for The Beatles and The Strokes. I cook and stay
+        active.
       </p>
       <p data-lang="es">
         Fuera del código: toco guitarra, bajo, teclados y canto — principalmente grabando música original
-        en casa, con especial cariño por The Beatles y The Strokes. Cocino (italiana y mexicana, con conteo
-        de macros), me mantengo activo y comparto departamento con Bucky, un husky con opiniones firmes
-        sobre todo.
+        en casa, con especial cariño por The Beatles y The Strokes. Cocino
+        , y me mantengo activo
       </p>
     </div>
   </section>

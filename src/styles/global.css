@@ -1,6 +1,10 @@
 :root {
   --bg: #0a0a0a;
   --surface: #111;
+  --hero-c1: #0a0a0a;
+  --hero-c2: #0c1828;
+  --hero-c3: #14082e;
+  --hero-c4: #080f1c;
   --surface-hover: #151515;
   --border: #222;
   --border-hover: #333;
@@ -20,6 +24,10 @@
 
 [data-theme="light"] {
   --bg: #fafafa;
+  --hero-c1: #fafafa;
+  --hero-c2: #edf4ff;
+  --hero-c3: #f2edff;
+  --hero-c4: #edf8ff;
   --surface: #ffffff;
   --surface-hover: #f0f0f1;
   --border: #e4e4e7;
@@ -159,7 +167,7 @@ nav a svg { display: block; }
 
 /* ── Main wrapper ── */
 main {
-  max-width: 720px;
+  max-width: 860px;
   margin: 0 auto;
   padding: 0 1.5rem 6rem;
 }
