@@ -282,6 +282,11 @@ import Layout from '../layouts/Layout.astro';
       .lang-level { width: auto; }
     }
 
+    /* Theme-aware icons — must come after .project-icon to override display: block */
+    .theme-icon-light { display: none; }
+    :global([data-theme="light"]) .theme-icon-dark { display: none; }
+    :global([data-theme="light"]) .theme-icon-light { display: block; }
+
     /* About */
     .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
     .about-text p + p { margin-top: 1rem; }
@@ -313,6 +318,9 @@ import Layout from '../layouts/Layout.astro';
           <span data-lang="es">Descargar CV</span>
         </a>
         <a class="btn btn-ghost" href="mailto:oscar@villarrealc.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
           <span data-lang="en">Get in touch</span>
           <span data-lang="es">Contáctame</span>
         </a>
@@ -401,7 +409,7 @@ import Layout from '../layouts/Layout.astro';
             <svg class="project-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
             </svg>
-            OsCapital
+            OzCapital
           </span>
           <span class="project-label">Personal</span>
         </div>
@@ -423,9 +431,8 @@ import Layout from '../layouts/Layout.astro';
       <div class="project-card">
         <div class="project-header">
           <span class="project-name">
-            <svg class="project-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-            </svg>
+            <img src="/icons/oscar-dark.svg" class="project-icon theme-icon-dark" alt="" />
+            <img src="/icons/oscar-light.svg" class="project-icon theme-icon-light" alt="" />
             <span data-lang="en">Personal Portfolio</span>
             <span data-lang="es">Portafolio Personal</span>
           </span>

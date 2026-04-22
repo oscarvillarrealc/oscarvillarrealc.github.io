@@ -22,7 +22,7 @@ const currentPath = Astro.url.pathname;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="icon" type="image/png" href="/oscar.png" />
+  <link rel="icon" id="favicon" type="image/x-icon" href="/icons/favicon-dark.ico" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <!-- Prevent flash of wrong theme / language -->
   <script is:inline>
@@ -146,6 +146,19 @@ const currentPath = Astro.url.pathname;
       document.documentElement.setAttribute('data-theme', saved ?? preferred);
     }
 
+    function applyFavicon() {
+      const theme = document.documentElement.getAttribute('data-theme') ?? 'dark';
+      const favicon = document.getElementById('favicon') as HTMLLinkElement | null;
+      if (!favicon) return;
+      if (theme === 'light') {
+        favicon.href = '/icons/favicon-light.ico';
+        favicon.type = 'image/x-icon';
+      } else {
+        favicon.href = '/icons/favicon-dark.ico';
+        favicon.type = 'image/x-icon';
+      }
+    }
+
     function applyLang() {
       document.documentElement.setAttribute('lang', localStorage.getItem('lang') ?? 'en');
     }
@@ -156,6 +169,7 @@ const currentPath = Astro.url.pathname;
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
+        applyFavicon();
       }
       document.getElementById('theme-toggle')?.addEventListener('click', applyClick);
       document.getElementById('theme-toggle-mobile')?.addEventListener('click', applyClick);
@@ -198,11 +212,13 @@ const currentPath = Astro.url.pathname;
     document.addEventListener('astro:after-swap', () => {
       applyTheme();
       applyLang();
+      applyFavicon();
       setupToggle();
       setupLangToggle();
       setupMobileMenu();
     });
 
+    applyFavicon();
     setupToggle();
     setupLangToggle();
     setupMobileMenu();
