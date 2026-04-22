@@ -164,6 +164,8 @@ import Layout from '../layouts/Layout.astro';
       gap: 0.3rem;
     }
     .tag i { font-size: 0.85rem; line-height: 1; }
+    .tag .devicon-github-original,
+    .tag .devicon-django-plain { color: var(--fg); }
     .tag img { width: 14px; height: 14px; flex-shrink: 0; }
 
     /* Stack */
@@ -200,6 +202,9 @@ import Layout from '../layouts/Layout.astro';
     }
     .stack-item:hover { border-color: var(--border-hover); background: var(--surface-hover); }
     .stack-item i { font-size: 1.875rem; line-height: 1; }
+    .stack-item .devicon-linux-plain,
+    .stack-item .devicon-github-original,
+    .stack-item .devicon-django-plain { color: var(--fg); }
     .stack-item img { width: 1.875rem; height: 1.875rem; object-fit: contain; }
     .stack-item span { font-size: 0.7rem; color: var(--muted); text-align: center; line-height: 1.3; }
 
@@ -368,6 +373,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/workos.svg" alt="WorkOS" />WorkOS</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+          <span class="tag"><i class="devicon-redis-plain colored"></i>Redis</span>
         </div>
       </div>
 
@@ -400,6 +406,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
           <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
+          <span class="tag"><i class="devicon-redis-plain colored"></i>Redis</span>
         </div>
       </div>
 
@@ -423,7 +430,7 @@ import Layout from '../layouts/Layout.astro';
         </p>
         <div class="tag-list">
           <span class="tag"><i class="devicon-django-plain colored"></i>Django</span>
-          <span class="tag">FullCalendar</span>
+          <span class="tag"><img src="/icons/fullcalendar.svg" alt="FullCalendar" />FullCalendar</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
         </div>
       </div>
