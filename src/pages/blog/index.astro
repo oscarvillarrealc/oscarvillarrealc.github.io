@@ -8,6 +8,11 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 function formatDate(date: Date) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+function readingTime(body: string) {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
 ---
 
 <Layout title="Blog — Oscar Villarreal" description="Writing on software, systems, and building things.">
@@ -40,47 +45,156 @@ function formatDate(date: Date) {
       color: var(--muted);
     }
 
-    .post-list {
-      display: flex;
-      flex-direction: column;
+    .blog-count {
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .blog-count-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
     }
 
-    .post-item {
+    .post-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      padding-top: 2.5rem;
+    }
+
+    .post-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
       text-decoration: none;
       color: inherit;
-      transition: opacity 0.15s;
+      display: block;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
     }
-    .post-item:hover { opacity: 0.75; }
-    .post-item:last-child { border-bottom: none; }
+    .post-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .post-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      background: var(--surface-hover);
+      transform: translateY(-3px);
+    }
+    .post-card:hover::before { opacity: 1; }
 
-    .post-meta {
+    .post-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .post-card-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+    .post-card-readtime {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+
+    .post-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin-bottom: 0.6rem;
+      color: var(--fg);
+      transition: color 0.15s;
+    }
+    .post-card:hover .post-card-title { color: var(--accent); }
+
+    .post-card-desc {
+      font-size: 0.925rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .post-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border);
+    }
+    .post-card-author {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .post-card-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--tag-bg);
+    }
+    .post-card-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .post-card-author-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .post-card-footer-right {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-
-    .post-date {
-      font-size: 0.8rem;
+    .post-card-date {
+      font-size: 0.78rem;
       color: var(--muted);
     }
-
-    .post-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-
-    .post-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+    .post-card-arrow {
+      font-size: 0.9rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s, transform 0.15s;
+      transform: translateX(-4px);
     }
-
-    .post-desc {
-      font-size: 0.925rem;
-      color: var(--muted);
-      line-height: 1.6;
+    .post-card:hover .post-card-arrow {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .empty {
@@ -100,29 +214,54 @@ function formatDate(date: Date) {
       <span data-lang="en">Thoughts on software, systems, and building things.</span>
       <span data-lang="es">Pensamientos sobre software, sistemas y construcción de proyectos.</span>
     </p>
+    <div class="blog-count">
+      <span class="blog-count-num">{posts.length}</span>
+      <span data-lang="en">{posts.length === 1 ? 'post published' : 'posts published'}</span>
+      <span data-lang="es">{posts.length === 1 ? 'publicación' : 'publicaciones'}</span>
+    </div>
   </div>
 
-  <div class="post-list">
+  <div class="post-grid">
     {posts.length === 0 ? (
       <p class="empty">
         <span data-lang="en">No posts yet — check back soon.</span>
         <span data-lang="es">Aún no hay publicaciones — vuelve pronto.</span>
       </p>
     ) : (
-      posts.map((post) => (
-        <a class="post-item" href={`/blog/${post.slug}`}>
-          <div class="post-meta">
-            <span class="post-date">{formatDate(post.data.pubDate)}</span>
-            {post.data.tags && (
-              <div class="post-tags">
-                {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+      posts.map((post) => {
+        const mins = readingTime(post.body);
+        return (
+          <a class="post-card" href={`/blog/${post.slug}`}>
+            <div class="post-card-top">
+              <div class="post-card-tags">
+                {post.data.tags && post.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
               </div>
-            )}
-          </div>
-          <div class="post-title">{post.data.title}</div>
-          <div class="post-desc">{post.data.description}</div>
-        </a>
-      ))
+              <div class="post-card-readtime">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                {mins} min read
+              </div>
+            </div>
+            <div class="post-card-title">{post.data.title}</div>
+            <div class="post-card-desc">{post.data.description}</div>
+            <div class="post-card-footer">
+              <div class="post-card-author">
+                <div class="post-card-avatar">
+                  <img src="/oscar.png" alt="Oscar" />
+                </div>
+                <span class="post-card-author-name">Oscar Villarreal</span>
+              </div>
+              <div class="post-card-footer-right">
+                <span class="post-card-date">{formatDate(post.data.pubDate)}</span>
+                <span class="post-card-arrow">→</span>
+              </div>
+            </div>
+          </a>
+        );
+      })
     )}
   </div>
 </Layout>

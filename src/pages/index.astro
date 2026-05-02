@@ -4,6 +4,23 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
   <style>
+    .reading-progress {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 99;
+      background: var(--border);
+      pointer-events: none;
+    }
+    .reading-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+
     section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
     section:last-child { border-bottom: none; }
     section:not(#hero) { max-width: 720px; margin-left: auto; margin-right: auto; }
@@ -104,9 +121,9 @@ import Layout from '../layouts/Layout.astro';
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1.5rem;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, background 0.15s;
     }
-    .project-card:hover { border-color: var(--border-hover); }
+    .project-card:hover { border-color: var(--border-hover); background: var(--surface-hover); }
 
     .project-header {
       display: flex;
@@ -254,7 +271,9 @@ import Layout from '../layouts/Layout.astro';
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1.5rem;
+      transition: border-color 0.15s, background 0.15s;
     }
+    .edu-card:hover { border-color: var(--border-hover); background: var(--surface-hover); }
 
     .edu-logo {
       width: 48px;
@@ -297,6 +316,10 @@ import Layout from '../layouts/Layout.astro';
     .about-text p + p { margin-top: 1rem; }
 
   </style>
+
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="reading-progress-fill"></div>
+  </div>
 
   <!-- Hero -->
   <section id="hero">
@@ -633,6 +656,21 @@ import Layout from '../layouts/Layout.astro';
       </p>
     </div>
   </section>
+
+  <script>
+    function initProgress() {
+      const fill = document.getElementById('reading-progress-fill');
+      if (!fill) return;
+      function update() {
+        const el = document.documentElement;
+        const total = el.scrollHeight - el.clientHeight;
+        fill.style.width = total > 0 ? `${Math.min(100, (el.scrollTop / total) * 100)}%` : '0%';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+    document.addEventListener('astro:page-load', initProgress);
+  </script>
 
   <script>
     import { animate, inView } from "motion";

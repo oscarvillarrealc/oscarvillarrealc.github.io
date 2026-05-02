@@ -11,91 +11,196 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+function readingTime(body: string) {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+const mins = readingTime(post.body);
+const tocHeadings = headings.filter((h) => h.depth <= 3);
 ---
 
 <Layout title={`${post.data.title} — Oscar Villarreal`} description={post.data.description}>
   <style>
+    /* Reading progress bar */
+    .reading-progress {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 99;
+      background: var(--border);
+      pointer-events: none;
+    }
+    .reading-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+
+    /* Post header */
     .post-header {
-      padding-top: 5rem;
-      padding-bottom: 2.5rem;
+      padding-top: 4rem;
+      padding-bottom: 3.5rem;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 2.5rem;
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--muted);
       text-decoration: none;
       margin-bottom: 2rem;
-      transition: color 0.15s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      transition: color 0.15s, border-color 0.15s;
     }
-    .back-link:hover { color: var(--fg); }
+    .back-link:hover { color: var(--fg); border-color: var(--border-hover); }
 
-    .post-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .post-date {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .post-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .post-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 
     h1 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-size: clamp(1.625rem, 4vw, 2.5rem);
       font-weight: 700;
       letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
+      line-height: 1.15;
+      margin-bottom: 1rem;
     }
 
     .post-desc {
       font-size: 1.05rem;
       color: var(--muted);
       line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 580px;
     }
 
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      padding-top: 0.5rem;
+    }
+    .post-author { display: flex; align-items: center; gap: 0.65rem; }
+    .post-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--tag-bg);
+    }
+    .post-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .post-author-name { font-size: 0.875rem; font-weight: 500; color: var(--fg); }
+    .post-meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+    .post-date { font-size: 0.8rem; color: var(--muted); }
+    .post-readtime {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    /* Body layout */
+    .post-body-wrap {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      grid-template-areas: "prose toc";
+      gap: 0 3.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .post-body-wrap {
+        grid-template-columns: 1fr;
+        grid-template-areas: "toc" "prose";
+      }
+    }
+
+    /* TOC */
+    .post-toc {
+      grid-area: toc;
+      position: sticky;
+      top: 76px;
+      padding-top: 2.5rem;
+    }
+    .post-toc-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .post-toc-list { list-style: none; display: flex; flex-direction: column; }
+    .post-toc-item a {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.3rem 0 0.3rem 0.75rem;
+      border-left: 2px solid var(--border);
+      transition: color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .post-toc-item a:hover { color: var(--fg); }
+    .post-toc-item a.active { color: var(--accent); border-left-color: var(--accent); }
+
     /* Prose */
+    .prose-area { grid-area: prose; padding-top: 2.5rem; padding-bottom: 4rem; }
+
     .prose {
       font-size: 1rem;
-      line-height: 1.8;
+      line-height: 1.85;
       color: var(--prose-color);
     }
 
     .prose :global(h2) {
-      font-size: 1.375rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin: 2.5rem 0 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin: 2.75rem 0 1rem;
       color: var(--fg);
+      padding-top: 0.25rem;
+      scroll-margin-top: 80px;
     }
 
     .prose :global(h3) {
-      font-size: 1.125rem;
+      font-size: 1.05rem;
       font-weight: 600;
       margin: 2rem 0 0.75rem;
       color: var(--fg);
+      scroll-margin-top: 80px;
     }
 
-    .prose :global(p) { margin-bottom: 1.25rem; }
+    .prose :global(p) { margin-bottom: 1.35rem; }
 
     .prose :global(a) {
       color: var(--accent);
       text-decoration: underline;
-      text-decoration-color: rgba(77,166,255,0.4);
+      text-decoration-color: rgba(77,166,255,0.35);
       text-underline-offset: 3px;
     }
     .prose :global(a:hover) { text-decoration-color: var(--accent); }
@@ -103,13 +208,13 @@ function formatDate(date: Date) {
     .prose :global(ul),
     .prose :global(ol) {
       padding-left: 1.5rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.35rem;
     }
-    .prose :global(li) { margin-bottom: 0.4rem; }
+    .prose :global(li) { margin-bottom: 0.5rem; }
 
     .prose :global(code) {
       font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
-      font-size: 0.875em;
+      font-size: 0.85em;
       background: var(--code-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -120,12 +225,12 @@ function formatDate(date: Date) {
     .prose :global(pre) {
       background: var(--pre-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
+      border-radius: 10px;
+      padding: 1.35rem 1.5rem;
       overflow-x: auto;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      line-height: 1.65;
+      margin-bottom: 1.75rem;
+      font-size: 0.85rem;
+      line-height: 1.7;
     }
     .prose :global(pre code) {
       background: none;
@@ -136,11 +241,16 @@ function formatDate(date: Date) {
 
     .prose :global(blockquote) {
       border-left: 3px solid var(--accent);
-      padding-left: 1.25rem;
-      margin: 1.5rem 0;
+      background: var(--accent-dim);
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      border-radius: 0 8px 8px 0;
       color: var(--muted);
       font-style: italic;
     }
+    .prose :global(blockquote p:last-child) { margin-bottom: 0; }
+
+    .prose :global(strong) { color: var(--fg); font-weight: 600; }
 
     .prose :global(hr) {
       border: none;
@@ -154,8 +264,53 @@ function formatDate(date: Date) {
       border: 1px solid var(--border);
       margin: 1.5rem 0;
     }
+
+    /* Footer nav */
+    .post-footer-nav {
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .post-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .post-footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .post-footer-back:hover { color: var(--fg); }
+
+    .back-to-top {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .back-to-top:hover { color: var(--fg); border-color: var(--border-hover); }
   </style>
 
+  <!-- Reading progress bar -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="reading-progress-fill"></div>
+  </div>
+
+  <!-- Post header -->
   <div class="post-header">
     <a class="back-link" href="/blog">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -165,20 +320,112 @@ function formatDate(date: Date) {
       <span data-lang="es">Todas las publicaciones</span>
     </a>
 
-    <div class="post-meta">
-      <span class="post-date">{formatDate(post.data.pubDate)}</span>
-      {post.data.tags && (
-        <div class="post-tags">
-          {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-        </div>
-      )}
-    </div>
+    {post.data.tags && (
+      <div class="post-tags">
+        {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
 
     <h1 transition:name={`post-title-${post.slug}`}>{post.data.title}</h1>
     <p class="post-desc">{post.data.description}</p>
+
+    <div class="post-meta">
+      <div class="post-author">
+        <div class="post-avatar">
+          <img src="/oscar.png" alt="Oscar" />
+        </div>
+        <span class="post-author-name">Oscar Villarreal</span>
+      </div>
+      <span class="post-meta-sep"></span>
+      <span class="post-date">{formatDate(post.data.pubDate)}</span>
+      <div class="post-readtime">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        {mins} min read
+      </div>
+    </div>
   </div>
 
-  <div class="prose">
-    <Content />
+  <!-- Body: prose + TOC -->
+  <div class="post-body-wrap">
+    {tocHeadings.length > 0 && (
+      <aside class="post-toc" id="post-toc">
+        <div class="post-toc-label">
+          <span data-lang="en">In this post</span>
+          <span data-lang="es">En este artículo</span>
+        </div>
+        <ul class="post-toc-list">
+          {tocHeadings.map((h) => (
+            <li class="post-toc-item">
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <div class="prose-area">
+      <div class="prose" id="prose">
+        <Content />
+      </div>
+    </div>
   </div>
+
+  <!-- Footer nav -->
+  <div class="post-footer-nav">
+    <div class="post-footer-inner">
+      <a class="post-footer-back" href="/blog">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        <span data-lang="en">Back to all posts</span>
+        <span data-lang="es">Volver a todas las publicaciones</span>
+      </a>
+      <button class="back-to-top" id="back-to-top">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+        <span data-lang="en">Back to top</span>
+        <span data-lang="es">Volver arriba</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function initPost() {
+      const fill = document.getElementById('reading-progress-fill');
+      const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.post-toc-item a');
+
+      function updateProgress() {
+        if (!fill) return;
+        const el = document.documentElement;
+        const scrolled = el.scrollTop;
+        const total = el.scrollHeight - el.clientHeight;
+        fill.style.width = total > 0 ? `${Math.min(100, (scrolled / total) * 100)}%` : '0%';
+      }
+
+      function updateToc() {
+        if (tocLinks.length === 0) return;
+        const headings = document.querySelectorAll<HTMLElement>('#prose h2[id], #prose h3[id]');
+        let current = '';
+        headings.forEach((h) => {
+          if (h.getBoundingClientRect().top <= 100) current = h.id;
+        });
+        tocLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+        });
+      }
+
+      window.addEventListener('scroll', () => { updateProgress(); updateToc(); }, { passive: true });
+      updateProgress();
+      updateToc();
+
+      document.getElementById('back-to-top')?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    document.addEventListener('astro:page-load', initPost);
+  </script>
 </Layout>
