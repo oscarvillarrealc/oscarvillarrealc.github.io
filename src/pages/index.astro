@@ -26,20 +26,11 @@ import Layout from '../layouts/Layout.astro';
     section:not(#hero) { max-width: 720px; margin-left: auto; margin-right: auto; }
 
     /* Hero */
-    @keyframes hero-gradient {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     #hero {
       padding: 0;
       border-bottom: none;
-      background: linear-gradient(-45deg, var(--hero-c1), var(--hero-c2), var(--hero-c3), var(--hero-c4));
-      background-size: 400% 400%;
-      animation: hero-gradient 12s ease infinite;
-      border-radius: 0 0 24px 24px;
-      /* full-width breakout */
+      overflow: hidden;
+      background: var(--bg);
       position: relative;
       left: 50%;
       transform: translateX(-50%);
@@ -47,62 +38,87 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .hero-inner {
-      max-width: 720px;
-      margin: auto;
-      padding: 7.5rem 0rem 7.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 2.5rem;
+      align-items: flex-end;
     }
 
-    .hero-text { flex: 1; min-width: 0; }
+    .hero-photo-col {
+      width: 320px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      align-self: flex-end;
+      padding-bottom: 4rem;
+    }
+    .hero-photo-col::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 50%, var(--bg) 100%);
+    }
+    .hero-photo-col img {
+      width: 100%;
+      display: block;
+      object-position: center top;
+      filter: grayscale(15%);
+    }
+
+    .hero-text {
+      flex: 1;
+      padding: 4rem 1.5rem 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     .eyebrow {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
     }
 
     h1 {
-      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-size: clamp(1.625rem, 3.25vw, 2.5rem);
       font-weight: 700;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.035em;
       line-height: 1.15;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
+    h1 em { font-style: normal; color: var(--muted); font-weight: 400; }
 
     .hero-desc {
-      font-size: 1.05rem;
+      font-size: 0.975rem;
       color: var(--muted);
       margin-bottom: 2rem;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     .hero-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
-    .hero-photo {
-      flex-shrink: 0;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--border);
-      box-shadow: 0 0 0 4px rgba(77,166,255,0.08);
-    }
-    .hero-photo img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
-
-    @media (max-width: 560px) {
-      .hero-inner { flex-direction: column; align-items: flex-start; padding-left: 1.5rem; padding-right: 1.5rem; }
-      .hero-photo { width: 100px; height: 100px; }
+    @media (max-width: 640px) {
+      .hero-inner { flex-direction: column; }
+      .hero-photo-col { width: 100%; padding-bottom: 0; align-self: auto; }
+      .hero-photo-col::after {
+        background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%);
+      }
+      .hero-text { padding: 2rem 1.5rem 3rem; }
+      h1 em { display: block; }
     }
 
     /* Section headings */
@@ -324,36 +340,36 @@ import Layout from '../layouts/Layout.astro';
   <!-- Hero -->
   <section id="hero">
     <div class="hero-inner">
-    <div class="hero-photo">
-      <img src="/oscar.png" alt="Oscar Villarreal" />
-    </div>
-    <div class="hero-text">
-      <div class="eyebrow">Monterrey, Mexico</div>
-      <h1>
-<span data-lang="en">Cloud Engineer & Infrastructure Specialist</span>
-<span data-lang="es">Ingeniero de la Nube e Infraestructura</span>
-      </h1>
-      <p class="hero-desc">
-        <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be.</span>
-        <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario.</span>
-      </p>
-      <div class="hero-links">
-        <a class="btn btn-primary" href="/Oscar%20Villarreal%20Chaccourt%20CV.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          <span data-lang="en">Download CV</span>
-          <span data-lang="es">Descargar CV</span>
-        </a>
-        <a class="btn btn-ghost" href="mailto:oscar@villarrealc.com">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-          </svg>
-          <span data-lang="en">Get in touch</span>
-          <span data-lang="es">Contáctame</span>
-        </a>
+      <div class="hero-photo-col">
+        <img src="/oscar.png" alt="Oscar Villarreal" />
       </div>
-    </div>
+      <div class="hero-text">
+        <div class="eyebrow">Monterrey, Mexico</div>
+        <h1>
+          <span data-lang="en">Cloud Engineer &amp;<br><em>Infrastructure Specialist</em></span>
+          <span data-lang="es">Ingeniero de la Nube<br><em>e Infraestructura</em></span>
+        </h1>
+        <p class="hero-desc">
+          <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be.</span>
+          <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario.</span>
+        </p>
+        <div class="hero-links">
+          <a class="btn btn-primary" href="/Oscar%20Villarreal%20Chaccourt%20CV.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span data-lang="en">Download CV</span>
+            <span data-lang="es">Descargar CV</span>
+          </a>
+          <a class="btn btn-ghost" href="mailto:oscar@villarrealc.com">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span data-lang="en">Get in touch</span>
+            <span data-lang="es">Contáctame</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -413,28 +429,55 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <p class="project-desc" data-lang="en">
-          E-commerce and CRM platform for a Mexican industrial mechanical seals company. Includes a
-          React Native mobile app, an AI-powered sales assistant (Vertex AI / Dialogflow CX), product catalog
-          with media storage on GCS, Filament admin panel with lead tracking, and performance optimizations
-          to reduce Cloud Run cold starts.
+          E-commerce and CRM platform for a Mexican industrial mechanical seals company. Features an
+          AI-powered sales assistant (Vertex AI / Dialogflow CX), product catalog with media storage on GCS,
+          Filament admin panel with lead tracking, and performance optimizations to reduce Cloud Run cold starts.
         </p>
         <p class="project-desc" data-lang="es">
           Plataforma de e-commerce y CRM para una empresa mexicana de sellos mecánicos industriales. Incluye
-          una app móvil en React Native, un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo
-          de productos con almacenamiento en GCS, panel de administración en Filament con seguimiento de
-          leads y optimizaciones para reducir cold starts en Cloud Run.
+          un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo de productos con almacenamiento
+          en GCS, panel de administración en Filament con seguimiento de leads y optimizaciones para reducir
+          cold starts en Cloud Run.
         </p>
         <div class="tag-list">
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Laravel</span>
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Blade</span>
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Filament</span>
-          <span class="tag"><i class="devicon-react-original colored"></i>React Native</span>
           <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
           <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
           <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
           <span class="tag"><i class="devicon-redis-plain colored"></i>Redis</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL Mobile</span>
+          <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
+            <span class="project-label">
+              <span data-lang="en">Main</span><span data-lang="es">Principal</span>
+            </span>
+            <span class="project-label" style="background:rgba(251,191,36,0.15);color:#f59e0b;">
+              <span data-lang="en">Public release soon</span><span data-lang="es">Lanzamiento público pronto</span>
+            </span>
+          </div>
+        </div>
+        <p class="project-desc" data-lang="en">
+          React Native mobile companion app for the VAZEL platform. Lets field sales reps browse the product
+          catalog, manage leads, and interact with the AI sales assistant from their phone.
+        </p>
+        <p class="project-desc" data-lang="es">
+          App móvil en React Native complementaria a la plataforma VAZEL. Permite a los representantes de
+          ventas consultar el catálogo de productos, gestionar leads e interactuar con el asistente de ventas
+          con IA desde su teléfono.
+        </p>
+        <div class="tag-list">
+          <span class="tag"><i class="devicon-react-original colored"></i>React Native</span>
+          <span class="tag"><i class="devicon-typescript-plain colored"></i>TypeScript</span>
+          <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
+          <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
         </div>
       </div>
 

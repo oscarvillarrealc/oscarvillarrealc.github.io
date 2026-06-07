@@ -123,6 +123,10 @@ const tocHeadings = headings.filter((h) => h.depth <= 3);
       margin-left: auto;
     }
 
+    @media (max-width: 560px) {
+      .post-readtime { margin-left: 0; }
+    }
+
     /* Body layout */
     .post-body-wrap {
       display: grid;
@@ -145,6 +149,15 @@ const tocHeadings = headings.filter((h) => h.depth <= 3);
       position: sticky;
       top: 76px;
       padding-top: 2.5rem;
+    }
+
+    @media (max-width: 860px) {
+      .post-toc {
+        position: static;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
     }
     .post-toc-label {
       font-size: 0.68rem;
