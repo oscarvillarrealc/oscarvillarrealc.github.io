@@ -389,17 +389,31 @@ import Layout from '../layouts/Layout.astro';
           </span>
         </div>
         <p class="project-desc" data-lang="en">
-          Multi-tenant SaaS platform covering HR, ATS, and CRM workflows. Built on a silo architecture —
-          each organization gets its own Cloud Run service and Cloud SQL instance, provisioned automatically
-          via Terraform pipelines. Features include a Kanban-based applicant tracker, Google Drive sync,
-          GCS file storage with signed URLs, messaging campaigns, and per-org navigation customization.
+          Aindez is an AI-native platform for managing workforce operations: an AI agent layer (Agno,
+          orchestrating Claude/OpenAI/Gemini) connects HCM, ATS, and ERP systems — Humand, HiringRoom,
+          Teamtailor, Alegra — into one place, driving chat-based workflows, scheduled routines, and
+          knowledge-base Q&amp;A over each org's data.
+        </p>
+        <p class="project-desc" data-lang="en">
+          My role: designed and built the multi-tenant system architecture — Terraform + Cloud Build
+          provisioning on GCP, giving every organization its own isolated Cloud Run service and Cloud SQL
+          instance — plus most of the third-party integrations, GCS-based image/file storage with signed
+          URLs, a Go CLI for interacting with the platform from the terminal (login, org switching, schema
+          import/export, integrations, routines), and UI work throughout the app.
         </p>
         <p class="project-desc" data-lang="es">
-          Plataforma SaaS multi-tenant para flujos de RRHH, ATS y CRM. Arquitectura silo: cada organización
-          tiene su propio servicio en Cloud Run e instancia de Cloud SQL, aprovisionados automáticamente
-          mediante pipelines de Terraform. Incluye un tablero Kanban de candidatos, sincronización con
-          Google Drive, almacenamiento en GCS con URLs firmadas, campañas de mensajería y navegación
-          personalizable por organización.
+          Aindez es una plataforma nativa en IA para gestionar la operación de tu equipo: una capa de
+          agentes de IA (Agno, orquestando Claude/OpenAI/Gemini) conecta sistemas de HCM, ATS y ERP —
+          Humand, HiringRoom, Teamtailor, Alegra — en un solo lugar, impulsando flujos por chat, rutinas
+          programadas y respuestas tipo Q&amp;A sobre los datos de cada organización.
+        </p>
+        <p class="project-desc" data-lang="es">
+          Mi rol: diseñé y construí la arquitectura multi-tenant del sistema — aprovisionamiento con
+          Terraform y Cloud Build en GCP, dando a cada organización su propio servicio en Cloud Run e
+          instancia de Cloud SQL — además de la mayoría de las integraciones con terceros, almacenamiento
+          de imágenes/archivos en GCS con URLs firmadas, un CLI en Go para interactuar con la plataforma
+          desde la terminal (login, cambio de organización, import/export de esquemas, integraciones,
+          rutinas), y trabajo de UI en varias partes de la app.
         </p>
         <div class="tag-list">
           <span class="tag"><i class="devicon-django-plain colored"></i>Django</span>
@@ -407,8 +421,12 @@ import Layout from '../layouts/Layout.astro';
           <span class="tag"><i class="devicon-react-original colored"></i>React</span>
           <span class="tag"><i class="devicon-typescript-plain colored"></i>TypeScript</span>
           <span class="tag"><img src="/icons/tanstack.svg" alt="TanStack" />TanStack Router</span>
-          <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
+          <span class="tag"><i class="devicon-go-plain colored"></i>Go</span>
           <span class="tag"><i class="devicon-terraform-plain colored"></i>Terraform</span>
+          <span class="tag"><img src="/icons/cloudbuild.svg" alt="Cloud Build" />Cloud Build</span>
+          <span class="tag"><img src="/icons/cloudrun.svg" alt="Cloud Run" />Cloud Run</span>
+          <span class="tag"><img src="/icons/cloudsql.svg" alt="Cloud SQL" />Cloud SQL</span>
+          <span class="tag"><img src="/icons/gcs.svg" alt="GCS" />GCS</span>
           <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/workos.svg" alt="WorkOS" />WorkOS</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
@@ -426,21 +444,25 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <p class="project-desc" data-lang="en">
-          E-commerce and CRM platform for a Mexican industrial mechanical seals company. Features an
+          Solo-designed and built this e-commerce and CRM platform for a Mexican industrial mechanical
+          seals company, end to end — backend, frontend, infrastructure, and integrations. Features an
           AI-powered sales assistant (Vertex AI / Dialogflow CX), product catalog with media storage on GCS,
-          Filament admin panel with lead tracking, and performance optimizations to reduce Cloud Run cold starts.
+          and a Filament admin panel with lead tracking.
         </p>
         <p class="project-desc" data-lang="es">
-          Plataforma de e-commerce y CRM para una empresa mexicana de sellos mecánicos industriales. Incluye
-          un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo de productos con almacenamiento
-          en GCS, panel de administración en Filament con seguimiento de leads y optimizaciones para reducir
-          cold starts en Cloud Run.
+          Diseñé y construí esta plataforma de e-commerce y CRM yo solo, de principio a fin — backend,
+          frontend, infraestructura e integraciones — para una empresa mexicana de sellos mecánicos
+          industriales. Incluye un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo de
+          productos con almacenamiento en GCS, y panel de administración en Filament con seguimiento de
+          leads.
         </p>
         <div class="tag-list">
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Laravel</span>
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Blade</span>
           <span class="tag"><i class="devicon-laravel-plain colored"></i>Filament</span>
-          <span class="tag"><i class="devicon-googlecloud-plain colored"></i>GCP</span>
+          <span class="tag"><img src="/icons/cloudbuild.svg" alt="Cloud Build" />Cloud Build</span>
+          <span class="tag"><img src="/icons/cloudsql.svg" alt="Cloud SQL" />Cloud SQL</span>
+          <span class="tag"><img src="/icons/gcs.svg" alt="GCS" />GCS</span>
           <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
           <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
           <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
@@ -473,33 +495,6 @@ import Layout from '../layouts/Layout.astro';
         <div class="tag-list">
           <span class="tag"><i class="devicon-react-original colored"></i>React Native</span>
           <span class="tag"><i class="devicon-typescript-plain colored"></i>TypeScript</span>
-          <span class="tag"><img src="/icons/vertex.svg" alt="Vertex AI" />Vertex AI</span>
-          <span class="tag"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" />Dialogflow CX</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-name">
-            <svg class="project-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-            OzCapital
-          </span>
-          <span class="project-label">Personal</span>
-        </div>
-        <p class="project-desc" data-lang="en">
-          Personal finance tracker built in Django. Uses FullCalendar for a visual timeline of income,
-          expenses, and projections.
-        </p>
-        <p class="project-desc" data-lang="es">
-          Rastreador de finanzas personales construido con Django. Usa FullCalendar para una línea de tiempo
-          visual de ingresos, gastos y proyecciones.
-        </p>
-        <div class="tag-list">
-          <span class="tag"><i class="devicon-django-plain colored"></i>Django</span>
-          <span class="tag"><img src="/icons/fullcalendar.svg" alt="FullCalendar" />FullCalendar</span>
-          <span class="tag"><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
         </div>
       </div>
 
@@ -545,6 +540,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="stack-item"><i class="devicon-django-plain colored"></i><span>Django</span></div>
         <div class="stack-item"><i class="devicon-fastapi-plain colored"></i><span>FastAPI</span></div>
         <div class="stack-item"><i class="devicon-laravel-plain colored"></i><span>Laravel</span></div>
+        <div class="stack-item"><i class="devicon-go-plain colored"></i><span>Go</span></div>
         <div class="stack-item"><i class="devicon-postgresql-plain colored"></i><span>PostgreSQL</span></div>
         <div class="stack-item"><i class="devicon-mysql-plain colored"></i><span>MySQL</span></div>
         <div class="stack-item"><i class="devicon-redis-plain colored"></i><span>Redis</span></div>
