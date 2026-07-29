@@ -240,6 +240,13 @@ import Layout from '../layouts/Layout.astro';
       transition: border-color 0.15s, background 0.15s;
     }
     .stack-item:hover { border-color: var(--border-hover); background: var(--surface-hover); }
+    .stack-item.learning {
+      border-style: dashed;
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.06);
+    }
+    .stack-item.learning:hover { border-color: rgba(245, 158, 11, 0.7); }
+    .stack-item.learning span { color: #f59e0b; }
     .stack-item i { font-size: 1.875rem; line-height: 1; }
     .stack-item .devicon-linux-plain,
     .stack-item .devicon-github-original,
@@ -672,6 +679,18 @@ import Layout from '../layouts/Layout.astro';
         <div class="stack-item"><img src="/icons/workos.svg" alt="WorkOS" /><span>WorkOS</span></div>
         <div class="stack-item"><img src="/icons/vertex.svg" alt="Vertex AI" /><span>Vertex AI</span></div>
         <div class="stack-item"><img src="/icons/dialogflow.svg" alt="Dialogflow CX" /><span>Dialogflow CX</span></div>
+      </div>
+    </div>
+
+    <div class="stack-category">
+      <div class="stack-category-label">
+        <span data-lang="en">Currently Learning</span>
+        <span data-lang="es">Aprendiendo Actualmente</span>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-item learning"><i class="devicon-kubernetes-plain colored"></i><span>Kubernetes</span></div>
+        <div class="stack-item learning"><i class="devicon-prometheus-original colored"></i><span>Prometheus</span></div>
+        <div class="stack-item learning"><i class="devicon-grafana-plain colored"></i><span>Grafana</span></div>
       </div>
     </div>
 
