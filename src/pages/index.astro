@@ -817,14 +817,14 @@ import Layout from '../layouts/Layout.astro';
     </h2>
     <div class="about-text">
       <p data-lang="en">
-        I studied Computer Science at UDEM in Monterrey, Mexico, and have around 1.5 years of professional
+        I studied Computer Science at UDEM in Monterrey, Mexico, and have around <span data-years-exp>1.5</span> years of professional
         experience. I got into programming in high school messing around with TI calculators, and never
         really stopped. These days I lean toward systems design and architecture, and I'm spending time
         filling in gaps in algorithms and formal CS theory.
       </p>
       <p data-lang="es">
         Estudié Ingeniería en Tecnologías Computacionales en la UDEM, en Monterrey, México, y llevo
-        alrededor de 1.5 años de experiencia profesional. Empecé a programar en la prepa, trasteando con
+        alrededor de <span data-years-exp>1.5</span> años de experiencia profesional. Empecé a programar en la prepa, trasteando con
         calculadoras TI, y de ahí no paré. Hoy en día me inclino por el diseño de sistemas y la
         arquitectura, y le estoy dedicando tiempo a reforzar algoritmos y teoría formal de CS.
       </p>
@@ -853,6 +853,27 @@ import Layout from '../layouts/Layout.astro';
       update();
     }
     document.addEventListener('astro:page-load', initProgress);
+  </script>
+
+  <script>
+    // Full-time start: April 2025. Internship time isn't reflected in the start
+    // date, so it's added on top as a flat offset.
+    const EXPERIENCE_START = new Date(2025, 3, 1);
+    const INTERNSHIP_MONTHS = 4;
+
+    function initExperience() {
+      const els = document.querySelectorAll('[data-years-exp]');
+      if (!els.length) return;
+      const now = new Date();
+      const months =
+        (now.getFullYear() - EXPERIENCE_START.getFullYear()) * 12 +
+        (now.getMonth() - EXPERIENCE_START.getMonth()) +
+        INTERNSHIP_MONTHS;
+      const years = Math.round((months / 12) * 2) / 2;
+      const label = years.toFixed(1).replace(/\.0$/, '');
+      els.forEach((el) => (el.textContent = label));
+    }
+    document.addEventListener('astro:page-load', initExperience);
   </script>
 
   <script>
