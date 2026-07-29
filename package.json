@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "cv:pdf": "node scripts/generate-cv-pdf.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.0",
     "astro": "^5.7.0",
     "motion": "^12.38.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.4.0"
   }
 }
