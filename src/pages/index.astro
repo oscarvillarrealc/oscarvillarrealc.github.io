@@ -182,6 +182,12 @@ import Layout from '../layouts/Layout.astro';
       white-space: nowrap;
     }
 
+    .project-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
     .project-desc {
       font-size: 0.925rem;
       color: var(--muted);
@@ -327,6 +333,75 @@ import Layout from '../layouts/Layout.astro';
     :global([data-theme="light"]) .theme-icon-dark { display: none; }
     :global([data-theme="light"]) .theme-icon-light { display: block; }
 
+    /* Certifications */
+    .cert-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .cert-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .cert-card:hover { border-color: var(--border-hover); background: var(--surface-hover); }
+
+    .cert-icon {
+      width: 48px;
+      flex-shrink: 0;
+      font-size: 2.25rem;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .cert-info { flex: 1; min-width: 0; }
+
+    .cert-name {
+      font-size: 0.975rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .cert-issuer {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .cert-dates {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .cert-status {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      background: rgba(251,191,36,0.15);
+      color: #f59e0b;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .cert-status svg { width: 11px; height: 11px; }
+
+    .cert-status.verified {
+      background: rgba(34,197,94,0.15);
+      color: #22c55e;
+    }
+
+    @media (max-width: 480px) {
+      .cert-card { flex-wrap: wrap; }
+      .cert-status { margin-left: calc(48px + 1.25rem); }
+    }
+
     /* About */
     .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
     .about-text p + p { margin-top: 1rem; }
@@ -351,7 +426,7 @@ import Layout from '../layouts/Layout.astro';
         </h1>
         <p class="hero-desc">
           <span data-lang="en">I build multi-tenant SaaS platforms, cloud infrastructure, and the occasional side project that's more fun than it needs to be.</span>
-          <span data-lang="es">Construyo plataformas SaaS multi-tenant, infraestructura en la nube y algún proyecto personal que resulta más divertido de lo necesario.</span>
+          <span data-lang="es">Construyo plataformas SaaS multi-tenant e infraestructura en la nube, y de vez en cuando algún proyecto personal solo por gusto.</span>
         </p>
         <div class="hero-links">
           <a class="btn btn-primary" href="/Oscar%20Villarreal%20Chaccourt%20CV.pdf" target="_blank">
@@ -384,33 +459,39 @@ import Layout from '../layouts/Layout.astro';
       <div class="project-card">
         <div class="project-header">
           <a href="https://aindez.ai" target="_blank" rel="noopener noreferrer" class="project-name"><img src="/icons/aindez.svg" class="project-icon" alt="" />Aindez</a>
-          <span class="project-label">
-            <span data-lang="en">Main</span><span data-lang="es">Principal</span>
-          </span>
+          <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+            <span class="project-date">
+              <span data-lang="en">Oct 2025 – Present</span>
+              <span data-lang="es">Oct 2025 – Presente</span>
+            </span>
+            <span class="project-label">
+              <span data-lang="en">Main</span><span data-lang="es">Principal</span>
+            </span>
+          </div>
         </div>
         <p class="project-desc" data-lang="en">
           Aindez is an AI-native platform for managing workforce operations: an AI agent layer (Agno,
-          orchestrating Claude/OpenAI/Gemini) connects HCM, ATS, and ERP systems — Humand, HiringRoom,
-          Teamtailor, Alegra — into one place, driving chat-based workflows, scheduled routines, and
+          orchestrating Claude/OpenAI/Gemini) connects HCM, ATS, and ERP systems (Humand, HiringRoom,
+          Teamtailor, Alegra) into one place, driving chat-based workflows, scheduled routines, and
           knowledge-base Q&amp;A over each org's data.
         </p>
         <p class="project-desc" data-lang="en">
-          My role: designed and built the multi-tenant system architecture — Terraform + Cloud Build
+          My role: designed and built the multi-tenant system architecture (Terraform + Cloud Build
           provisioning on GCP, giving every organization its own isolated Cloud Run service and Cloud SQL
-          instance — plus most of the third-party integrations, GCS-based image/file storage with signed
+          instance), plus most of the third-party integrations, GCS-based image/file storage with signed
           URLs, a Go CLI for interacting with the platform from the terminal (login, org switching, schema
           import/export, integrations, routines), and UI work throughout the app.
         </p>
         <p class="project-desc" data-lang="es">
           Aindez es una plataforma nativa en IA para gestionar la operación de tu equipo: una capa de
-          agentes de IA (Agno, orquestando Claude/OpenAI/Gemini) conecta sistemas de HCM, ATS y ERP —
-          Humand, HiringRoom, Teamtailor, Alegra — en un solo lugar, impulsando flujos por chat, rutinas
+          agentes de IA (Agno, orquestando Claude/OpenAI/Gemini) conecta sistemas de HCM, ATS y ERP
+          (Humand, HiringRoom, Teamtailor, Alegra) en un solo lugar, impulsando flujos por chat, rutinas
           programadas y respuestas tipo Q&amp;A sobre los datos de cada organización.
         </p>
         <p class="project-desc" data-lang="es">
-          Mi rol: diseñé y construí la arquitectura multi-tenant del sistema — aprovisionamiento con
+          Mi rol: diseñé y construí la arquitectura multi-tenant del sistema (aprovisionamiento con
           Terraform y Cloud Build en GCP, dando a cada organización su propio servicio en Cloud Run e
-          instancia de Cloud SQL — además de la mayoría de las integraciones con terceros, almacenamiento
+          instancia de Cloud SQL), además de la mayoría de las integraciones con terceros, almacenamiento
           de imágenes/archivos en GCS con URLs firmadas, un CLI en Go para interactuar con la plataforma
           desde la terminal (login, cambio de organización, import/export de esquemas, integraciones,
           rutinas), y trabajo de UI en varias partes de la app.
@@ -437,7 +518,11 @@ import Layout from '../layouts/Layout.astro';
       <div class="project-card">
         <div class="project-header">
           <a href="https://vazel.com" target="_blank" rel="noopener noreferrer" class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL</a>
-          <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
+          <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+            <span class="project-date">
+              <span data-lang="en">Apr 2025 – Present</span>
+              <span data-lang="es">Abr 2025 – Presente</span>
+            </span>
             <span class="project-label">
               <span data-lang="en">Main</span><span data-lang="es">Principal</span>
             </span>
@@ -445,13 +530,13 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <p class="project-desc" data-lang="en">
           Solo-designed and built this e-commerce and CRM platform for a Mexican industrial mechanical
-          seals company, end to end — backend, frontend, infrastructure, and integrations. Features an
+          seals company, end to end: backend, frontend, infrastructure, and integrations. Features an
           AI-powered sales assistant (Vertex AI / Dialogflow CX), product catalog with media storage on GCS,
           and a Filament admin panel with lead tracking.
         </p>
         <p class="project-desc" data-lang="es">
-          Diseñé y construí esta plataforma de e-commerce y CRM yo solo, de principio a fin — backend,
-          frontend, infraestructura e integraciones — para una empresa mexicana de sellos mecánicos
+          Diseñé y construí esta plataforma de e-commerce y CRM yo solo, de principio a fin: backend,
+          frontend, infraestructura e integraciones, para una empresa mexicana de sellos mecánicos
           industriales. Incluye un asistente de ventas con IA (Vertex AI / Dialogflow CX), catálogo de
           productos con almacenamiento en GCS, y panel de administración en Filament con seguimiento de
           leads.
@@ -474,9 +559,10 @@ import Layout from '../layouts/Layout.astro';
       <div class="project-card">
         <div class="project-header">
           <span class="project-name"><img src="/icons/vazel-logo.svg" class="project-icon" alt="" />VAZEL Mobile</span>
-          <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
-            <span class="project-label">
-              <span data-lang="en">Main</span><span data-lang="es">Principal</span>
+          <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+            <span class="project-date">
+              <span data-lang="en">Apr 2025 – Present</span>
+              <span data-lang="es">Abr 2025 – Presente</span>
             </span>
             <span class="project-label" style="background:rgba(251,191,36,0.15);color:#f59e0b;">
               <span data-lang="en">Public release soon</span><span data-lang="es">Lanzamiento público pronto</span>
@@ -662,6 +748,48 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <!-- Certifications -->
+  <section id="certifications">
+    <h2>
+      <span data-lang="en">Certifications</span>
+      <span data-lang="es">Certificaciones</span>
+    </h2>
+    <div class="cert-list">
+      <div class="cert-card">
+        <i class="devicon-googlecloud-plain colored cert-icon"></i>
+        <div class="cert-info">
+          <div class="cert-name">Google Cloud Certified – Associate Cloud Engineer</div>
+          <div class="cert-issuer">Google Cloud</div>
+          <div class="cert-dates">
+            <span data-lang="en">Studying now · Target: Aug 2026</span>
+            <span data-lang="es">Estudiando actualmente · Meta: Ago 2026</span>
+          </div>
+        </div>
+        <span class="cert-status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+          <span data-lang="en">In progress</span>
+          <span data-lang="es">En preparación</span>
+        </span>
+      </div>
+      <div class="cert-card">
+        <i class="devicon-terraform-plain colored cert-icon"></i>
+        <div class="cert-info">
+          <div class="cert-name">HashiCorp Certified: Terraform Associate</div>
+          <div class="cert-issuer">HashiCorp</div>
+          <div class="cert-dates">
+            <span data-lang="en">Studying now · Target: Sep 2026</span>
+            <span data-lang="es">Estudiando actualmente · Meta: Sep 2026</span>
+          </div>
+        </div>
+        <span class="cert-status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+          <span data-lang="en">In progress</span>
+          <span data-lang="es">En preparación</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
   <!-- About -->
   <section id="about">
     <h2>
@@ -670,16 +798,16 @@ import Layout from '../layouts/Layout.astro';
     </h2>
     <div class="about-text">
       <p data-lang="en">
-        I’m a Computer Science graduate from UDEM based in Monterrey, Mexico, with around 1.5 years of professional experience.
-        My path into programming started on TI calculators in high school, from there it just kept going.
-        I gravitate toward systems design and architecture problems, and I’m actively building depth in
-        algorithms and formal CS theory.
+        I studied Computer Science at UDEM in Monterrey, Mexico, and have around 1.5 years of professional
+        experience. I got into programming in high school messing around with TI calculators, and never
+        really stopped. These days I lean toward systems design and architecture, and I'm spending time
+        filling in gaps in algorithms and formal CS theory.
       </p>
       <p data-lang="es">
-        Soy egresado de Ingeniería en Tecnologías Computacionales por la UDEM, con base en Monterrey, México, y cuento con alrededor de 1.5 años de experiencia profesional.
-        profesional. Mi camino en la programación comenzó en calculadoras TI en la preparatoria y de ahí
-        no paró. Me inclino hacia los problemas de diseño de sistemas y arquitectura, y estoy profundizando
-        en algoritmos y teoría formal de CS.
+        Estudié Ingeniería en Tecnologías Computacionales en la UDEM, en Monterrey, México, y llevo
+        alrededor de 1.5 años de experiencia profesional. Empecé a programar en la prepa, trasteando con
+        calculadoras TI, y de ahí no paré. Hoy en día me inclino por el diseño de sistemas y la
+        arquitectura, y le estoy dedicando tiempo a reforzar algoritmos y teoría formal de CS.
       </p>
       <p data-lang="en">
         Outside of code: I play guitar, bass, keys, and sing, mostly recording original music at home,
@@ -743,6 +871,10 @@ import Layout from '../layouts/Layout.astro';
 
       document.querySelectorAll(".edu-card").forEach(function(el) {
         setup(el);
+      });
+
+      document.querySelectorAll(".cert-card").forEach(function(el, i) {
+        setup(el, i * 0.06);
       });
 
       document.querySelectorAll(".about-text").forEach(function(el) {
