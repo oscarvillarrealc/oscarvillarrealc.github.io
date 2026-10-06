@@ -404,8 +404,10 @@ import Layout from '../layouts/Layout.astro';
       color: #22c55e;
     }
 
-    @media (max-width: 480px) {
-      .cert-card { flex-wrap: wrap; }
+    @media (max-width: 640px) {
+      .cert-card { flex-wrap: wrap; align-items: flex-start; row-gap: 0.75rem; padding: 1.25rem; }
+      /* Fill the row beside the icon so the badge wraps below instead of squeezing the text */
+      .cert-info { flex-basis: calc(100% - 48px - 1.25rem); }
       .cert-status { margin-left: calc(48px + 1.25rem); }
     }
 
